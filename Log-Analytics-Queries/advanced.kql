@@ -1,0 +1,21 @@
+let all_sign_ins = AppEvents
+| extend CorrelationId = tostring(Properties.CorrelationId)
+| extend username = tostring(Properties.signInName)
+| where Name == ""UserSignIn""
+| project username, CorrelationId;
+let all_successes = AppEvents
+| extend CorrelationId = tostring(Properties.CorrelationId)
+| extend username = tostring(Properties.signInName)
+| where Name == ""SignInComplete""
+| distinct CorrelationId;
+let succeeded = AppEvents
+| extend username = tostring(Properties.signInName)
+| where Name == ""SignInComplete""
+| distinct username;
+let full_hist = all_sign_ins
+| where username !in (succeeded) and CorrelationId !in (all_successes)
+| distinct CorrelationId;
+AppEvents
+| extend CorrelationId = tostring(Properties.CorrelationId)
+| where CorrelationId in (full_hist)
+| extend username = Properties.signInName

@@ -1,0 +1,2 @@
+AppExceptions 
+| extend CorrelationId = tostring(split(OuterMessage, "":"", 2)[0]

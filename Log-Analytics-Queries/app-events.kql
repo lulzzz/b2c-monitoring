@@ -1,0 +1,7 @@
+AppEvents 
+| extend CorrelationId = tostring(Properties.CorrelationId)
+| extend Federated = tostring(Properties.FederatedUser)
+| extend FederationPartner = tostring(Properties.FederationPartner)
+| extend Local = tostring(Properties.LocalUser)
+| extend username = tostring(Properties.signInName)
+| extend domain = split(username, ""@"", 1)[0]

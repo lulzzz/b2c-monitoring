@@ -1,0 +1,3 @@
+AppTraces
+| extend CorrelationId = tostring(Properties.CorrelationId)
+| where Message contains ""exception""
